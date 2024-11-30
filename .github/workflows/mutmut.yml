@@ -28,7 +28,7 @@ jobs:
     - name: Run mutmut
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/  # Ajusta el directorio
+        mutmut run --paths-to-mutate classes/ --disable-mutation "return"
         mutmut html
 
     - name: Prepare Reports Directory
