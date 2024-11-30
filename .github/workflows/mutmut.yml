@@ -9,7 +9,7 @@ jobs:
   mutmut:
     runs-on: ubuntu-latest
     steps:
-
+    
     # Checkout del repositorio
     - name: Checkout code
       uses: actions/checkout@v3
@@ -18,40 +18,37 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version: '3.10'  # Asegúrate de usar la versión que corresponde a tu proyecto
 
     # Instalar dependencias
     - name: Install dependencies
       run: |
         pip install mutmut==2.0.0
-        pip install pytest
+        pip install pytest  # Instalar pytest si no está en tus requerimientos
         pip install -r proyecto/requirements.txt
+
 
     # Ejecutar pruebas mutantes
     - name: Run mutmut
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/
+        mutmut run --paths-to-mutate classes/  # Ajusta según el directorio correcto
         mutmut html
 
-    # Configurar Git y trabajar en la rama gh-pages
-    - name: Publish Mutmut Report
+    # Configurar git para hacer commit en la rama gh-pages
+    - name: Set up Git
       run: |
-        # Asegurar que la rama gh-pages existe localmente
-        git fetch origin gh-pages || git checkout -b gh-pages
-        git checkout gh-pages
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "github-actions@github.com"
 
-        # Limpiar el contenido de la rama gh-pages si es necesario
-        rm -rf *
-
-        # Copiar los reportes al directorio raíz de gh-pages
-        cp -r proyecto/mutmut_html/* .
-
-        # Configurar Git
-        git config user.name "GitHub Actions"
-        git config user.email "github-actions@github.com"
-
-        # Hacer commit de los cambios
-        git add .
-        git commit -m "Update Mutmut report" || echo "No changes to commit"
+    # Subir el reporte generado a gh-pages
+    - name: Commit and push mutated report to gh-pages
+      run: |
+        # Crear un nuevo directorio para los reportes si no existe
+        mkdir -p gh-pages/mutmut-report
+        mv mutmut_html/* gh-pages/mutmut-report/
+        
+        # Hacer commit de los cambios en gh-pages
+        git add gh-pages/mutmut-report/*
+        git commit -m "Add mutmut report"
         git push origin gh-pages
