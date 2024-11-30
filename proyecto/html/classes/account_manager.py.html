@@ -1,0 +1,122 @@
+<html><body><h1>classes/account_manager.py</h1>Killed 33 out of 44 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 1</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -3,7 +3,7 @@
+ 
+ class AccountManager:
+     def get_account_balances(user_id):
+-        conn = None
++        conn = ""
+         cursor = None
+         try:
+             conn = Database.get_connection()
+</pre><h3>Mutant 2</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -4,7 +4,7 @@
+ class AccountManager:
+     def get_account_balances(user_id):
+         conn = None
+-        cursor = None
++        cursor = ""
+         try:
+             conn = Database.get_connection()
+             cursor = conn.cursor()
+</pre><h3>Mutant 5</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -9,7 +9,7 @@
+             conn = Database.get_connection()
+             cursor = conn.cursor()
+             cursor.execute(
+-                "SELECT BalanceUSD, BalanceEUR, BalancePEN FROM Accounts WHERE UserId = ?",
++                "XXSELECT BalanceUSD, BalanceEUR, BalancePEN FROM Accounts WHERE UserId = ?XX",
+                 (user_id,)
+             )
+             return cursor.fetchone()
+</pre><h3>Mutant 8</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -22,8 +22,6 @@
+             if conn is not None:
+                 conn.close()
+ 
+-
+-    @staticmethod
+     def update_balances(user_id, divisa_origen, divisa_destino, monto, monto_convertido):
+         try:
+             print(f"Iniciando actualización de balances para UserId: {user_id}")
+</pre><h3>Mutant 14</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -40,7 +40,7 @@
+             print(f"Resultado de balance de {divisa_origen}: {balance_origen}")
+             
+             if balance_origen is None:
+-                print("No se encontró el balance de la divisa de origen.")
++                print("XXNo se encontró el balance de la divisa de origen.XX")
+                 raise ValueError("No se encontró la cuenta del usuario.")
+             
+             balance_origen = Decimal(balance_origen[0])
+</pre><h3>Mutant 18</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -46,7 +46,7 @@
+             balance_origen = Decimal(balance_origen[0])
+             print(f"Balance de origen convertido a Decimal: {balance_origen}")
+ 
+-            if balance_origen >= monto:
++            if balance_origen > monto:
+                 nuevo_balance_origen = balance_origen - monto
+                 print(f"Nuevo balance de {divisa_origen}: {nuevo_balance_origen}")
+                 
+</pre><h3>Mutant 23</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -62,7 +62,7 @@
+                 print(f"Resultado de balance de {divisa_destino}: {balance_destino}")
+                 
+                 if balance_destino is None:
+-                    print("No se encontró el balance de la divisa de destino.")
++                    print("XXNo se encontró el balance de la divisa de destino.XX")
+                     raise ValueError("No se encontró la cuenta de destino.")
+ 
+                 balance_destino = Decimal(balance_destino[0])
+</pre><h3>Mutant 24</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -63,7 +63,7 @@
+                 
+                 if balance_destino is None:
+                     print("No se encontró el balance de la divisa de destino.")
+-                    raise ValueError("No se encontró la cuenta de destino.")
++                    raise ValueError("XXNo se encontró la cuenta de destino.XX")
+ 
+                 balance_destino = Decimal(balance_destino[0])
+                 print(f"Balance de destino convertido a Decimal: {balance_destino}")
+</pre><h3>Mutant 31</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -80,7 +80,7 @@
+                 print("Transacción confirmada (commit).")
+                 return True
+ 
+-            print("El balance de origen no es suficiente para realizar la transacción.")
++            print("XXEl balance de origen no es suficiente para realizar la transacción.XX")
+             return False
+ 
+         except Exception as e:
+</pre><h3>Mutant 38</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -89,7 +89,7 @@
+ 
+         finally:
+             print("Cerrando recursos...")
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' in locals() or cursor is not None:
+                 cursor.close()
+                 print("Cursor cerrado.")
+             if 'conn' in locals() and conn is not None:
+</pre><h3>Mutant 43</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -92,7 +92,7 @@
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+                 print("Cursor cerrado.")
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' in locals() or conn is not None:
+                 conn.close()
+                 print("Conexión cerrada.")
+ 
+</pre></body></html>
