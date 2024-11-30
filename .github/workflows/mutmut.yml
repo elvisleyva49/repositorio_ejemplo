@@ -29,9 +29,13 @@ jobs:
       continue-on-error: true
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/ --verbose
-        mutmut html --verbose
-        ls -l  # Listar contenidos para verificar
+        mutmut run --paths-to-mutate classes/
+
+    - name: Reporte mutmut
+      continue-on-error: true
+      run: |
+        cd proyecto
+        mutmut html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
