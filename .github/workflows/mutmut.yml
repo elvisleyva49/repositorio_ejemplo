@@ -17,32 +17,26 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'  # Ajustar la versión según sea necesario
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
         pip install mutmut==2.0.0
-        pip install pytest  # Si pytest no está en tus requerimientos
+        pip install pytest
         pip install -r proyecto/requirements.txt
 
     - name: Run mutmut
       continue-on-error: true
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/  # Ajusta el directorio
+        mutmut run --paths-to-mutate classes/
         mutmut html
-
-    - name: Prepare Reports Directory
-      run: |
-        mkdir reports
-        mv mutmut_html reports/mutmut-report/
-        echo "<html><body><h1>Mutant Testing Reports</h1><ul><li><a href='mutmut-report/index.html'>Mutmut Report</a></li></ul></body></html>" > reports/index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./reports
+        publish_dir: ./proyecto/mutmut_html
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: 'Update Mutant Testing Report'
