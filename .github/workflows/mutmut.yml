@@ -4,7 +4,7 @@ jobs:
   mutmut:
     runs-on: ubuntu-latest
     steps:
-    
+
     # Checkout del repositorio
     - name: Checkout code
       uses: actions/checkout@v3
@@ -29,10 +29,24 @@ jobs:
         mutmut run --paths-to-mutate classes/
         mutmut html
 
-    # Desplegar solo el reporte de mutmut en gh-pages
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./proyecto/mutmut_html
-        publish_branch: gh-pages
+    # Configurar Git y trabajar en la rama gh-pages
+    - name: Publish Mutmut Report
+      run: |
+        # Asegurar que la rama gh-pages existe localmente
+        git fetch origin gh-pages || git checkout -b gh-pages
+        git checkout gh-pages
+
+        # Limpiar el contenido de la rama gh-pages si es necesario
+        rm -rf *
+
+        # Copiar los reportes al directorio raíz de gh-pages
+        cp -r proyecto/mutmut_html/* .
+
+        # Configurar Git
+        git config user.name "GitHub Actions"
+        git config user.email "github-actions@github.com"
+
+        # Hacer commit de los cambios
+        git add .
+        git commit -m "Update Mutmut report" || echo "No changes to commit"
+        git push origin gh-pages
