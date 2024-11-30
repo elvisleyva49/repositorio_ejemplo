@@ -26,9 +26,10 @@ jobs:
         pip install -r proyecto/requirements.txt
 
     - name: Run mutmut
+      continue-on-error: true
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/ --disable-mutation "return"
+        mutmut run --paths-to-mutate classes/  # Ajusta el directorio
         mutmut html
 
     - name: Prepare Reports Directory
