@@ -1,0 +1,45 @@
+<html><body><h1>classes/account_manager.py</h1>Killed 4 out of 8 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 101</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -40,7 +40,7 @@
+             print(f"Resultado de balance de {divisa_origen}: {balance_origen}")
+             
+             if balance_origen is None:
+-                print("No se encontró el balance de la divisa de origen.")
++                print("XXNo se encontró el balance de la divisa de origen.XX")
+                 raise ValueError("No se encontró la cuenta del usuario.")
+             
+             balance_origen = Decimal(balance_origen[0])
+</pre><h3>Mutant 103</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -62,7 +62,7 @@
+                 print(f"Resultado de balance de {divisa_destino}: {balance_destino}")
+                 
+                 if balance_destino is None:
+-                    print("No se encontró el balance de la divisa de destino.")
++                    print("XXNo se encontró el balance de la divisa de destino.XX")
+                     raise ValueError("No se encontró la cuenta de destino.")
+ 
+                 balance_destino = Decimal(balance_destino[0])
+</pre><h3>Mutant 104</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -63,7 +63,7 @@
+                 
+                 if balance_destino is None:
+                     print("No se encontró el balance de la divisa de destino.")
+-                    raise ValueError("No se encontró la cuenta de destino.")
++                    raise ValueError("XXNo se encontró la cuenta de destino.XX")
+ 
+                 balance_destino = Decimal(balance_destino[0])
+                 print(f"Balance de destino convertido a Decimal: {balance_destino}")
+</pre><h3>Mutant 106</h3><pre>--- classes/account_manager.py
++++ classes/account_manager.py
+@@ -80,7 +80,7 @@
+                 print("Transacción confirmada (commit).")
+                 return True
+ 
+-            print("El balance de origen no es suficiente para realizar la transacción.")
++            print("XXEl balance de origen no es suficiente para realizar la transacción.XX")
+             return False
+ 
+         except Exception as e:
+</pre></body></html>

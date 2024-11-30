@@ -1,0 +1,128 @@
+<html><body><h1>classes/transaction_manager.py</h1>Killed 16 out of 28 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 57</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -3,7 +3,7 @@
+ from datetime import datetime
+ 
+ class TransactionManager:
+-    @staticmethod
++
+     def register_transaction(user_id, divisa_origen, divisa_destino, monto, tasa_conversion, monto_convertido):
+         try:
+             conn = Database.get_connection()
+</pre><h3>Mutant 60</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -8,7 +8,7 @@
+         try:
+             conn = Database.get_connection()
+             cursor = conn.cursor()
+-            TransactionManager.fecha = datetime.now()
++            TransactionManager.fecha = None
+             fecha = TransactionManager.fecha
+             cursor.execute("""INSERT INTO Transactions (UserId, FromCurrency, ToCurrency, Amount, Rate, Result, TransactionDate) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                 user_id, divisa_origen, divisa_destino, monto, tasa_conversion, 
+</pre><h3>Mutant 64</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -22,7 +22,7 @@
+             return {"error": str(e)}
+         
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'XXcursorXX' in locals() and cursor is not None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 66</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -22,7 +22,7 @@
+             return {"error": str(e)}
+         
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' in locals() and cursor is  None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 68</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -24,7 +24,7 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'XXconnXX' in locals() and conn is not None:
+                 conn.close()
+ 
+     @staticmethod
+</pre><h3>Mutant 70</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -24,7 +24,7 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' in locals() and conn is  None:
+                 conn.close()
+ 
+     @staticmethod
+</pre><h3>Mutant 72</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -27,7 +27,6 @@
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+ 
+-    @staticmethod
+     def get_user_transactions(user_id):
+         try:
+             conn = Database.get_connection()
+</pre><h3>Mutant 75</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -32,7 +32,7 @@
+         try:
+             conn = Database.get_connection()
+             cursor = conn.cursor()
+-            cursor.execute("SELECT * FROM Transactions WHERE UserId = ? ORDER BY TransactionDate DESC", (user_id,))
++            cursor.execute("XXSELECT * FROM Transactions WHERE UserId = ? ORDER BY TransactionDate DESCXX", (user_id,))
+             return cursor.fetchall()
+         
+         except Exception as e:
+</pre><h3>Mutant 77</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -40,7 +40,7 @@
+             return {"error": str(e)}
+         
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'XXcursorXX' in locals() and cursor is not None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 79</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -40,7 +40,7 @@
+             return {"error": str(e)}
+         
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' in locals() and cursor is  None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 81</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -42,5 +42,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'XXconnXX' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 83</h3><pre>--- classes/transaction_manager.py
++++ classes/transaction_manager.py
+@@ -42,5 +42,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' in locals() and conn is  None:
+                 conn.close()
+</pre></body></html>

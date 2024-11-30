@@ -1,0 +1,12 @@
+<html><body><h1>classes/currency_manager.py</h1>Killed 11 out of 12 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 45</h3><pre>--- classes/currency_manager.py
++++ classes/currency_manager.py
+@@ -2,7 +2,7 @@
+ from config.database import Database
+ 
+ class CurrencyManager:
+-    @staticmethod
++
+     def convert_currency(monto, divisa_origen, divisa_destino):
+         conversion_rates = Database.conversion_rates()
+         
+</pre></body></html>
