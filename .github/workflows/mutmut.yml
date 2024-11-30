@@ -2,53 +2,51 @@ name: Mutant Testing Report
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  mutmut:
+  mutant-testing:
     runs-on: ubuntu-latest
+
     steps:
-    
-    # Checkout del repositorio
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-    # Configurar Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'  # Asegúrate de usar la versión que corresponde a tu proyecto
+        python-version: '3.10'  # Ajustar la versión según sea necesario
 
-    # Instalar dependencias
     - name: Install dependencies
       run: |
         pip install mutmut==2.0.0
-        pip install pytest  # Instalar pytest si no está en tus requerimientos
+        pip install pytest  # Si pytest no está en tus requerimientos
         pip install -r proyecto/requirements.txt
 
-
-    # Ejecutar pruebas mutantes
     - name: Run mutmut
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/  # Ajusta según el directorio correcto
+        mutmut run --paths-to-mutate classes/  # Ajusta el directorio
         mutmut html
 
-    # Configurar git para hacer commit en la rama gh-pages
-    - name: Set up Git
+    - name: Prepare Reports Directory
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "github-actions@github.com"
+        mkdir reports
+        mv mutmut_html reports/mutmut-report/
+        echo "<html><body><h1>Mutant Testing Reports</h1><ul><li><a href='mutmut-report/index.html'>Mutmut Report</a></li></ul></body></html>" > reports/index.html
 
-    # Subir el reporte generado a gh-pages
-    - name: Commit and push mutated report to gh-pages
-      run: |
-        # Crear un nuevo directorio para los reportes si no existe
-        mkdir -p gh-pages/mutmut-report
-        mv mutmut_html/* gh-pages/mutmut-report/
-        
-        # Hacer commit de los cambios en gh-pages
-        git add gh-pages/mutmut-report/*
-        git commit -m "Add mutmut report"
-        git push origin gh-pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./reports
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'Update Mutant Testing Report'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
