@@ -11,8 +11,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -21,30 +19,29 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install mutmut==2.0.0
-        pip install pytest
+        python -m pip install --upgrade pip
+        pip install mutmut pytest
         pip install -r proyecto/requirements.txt
 
-    - name: Run mutmut
-      continue-on-error: true
+    - name: Run Mutmut
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/
+        mutmut run --paths-to-mutate classes/ --report
         mutmut html
-        ls -l  # Listar contenidos para verificar
 
-    - name: Debug - Check HTML directory
+    - name: Verify HTML Report
       run: |
         cd proyecto
+        ls -l html || echo "No HTML directory found"
         pwd
         find . -name "html"
-        ls -la
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./proyecto/html
+        keep_files: false
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: 'Update Mutant Testing Report'
