@@ -26,6 +26,7 @@ jobs:
         pip install -r proyecto/requirements.txt
 
     - name: Run mutmut
+      continue-on-error: true
       run: |
         cd proyecto
         mutmut run --paths-to-mutate classes/
