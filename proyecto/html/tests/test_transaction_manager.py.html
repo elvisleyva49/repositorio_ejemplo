@@ -1,0 +1,330 @@
+<html><body><h1>tests/test_transaction_manager.py</h1>Killed 27 out of 57 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 246</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -8,7 +8,7 @@
+ def mock_database_connection():
+     with patch.object(Database, 'get_connection') as mock_connection:
+         mock_cursor = mock_connection.return_value.cursor.return_value
+-        mock_cursor.execute.return_value = None
++        mock_cursor.execute.return_value = ""
+         mock_connection.return_value.commit.return_value = None
+         yield mock_connection
+ 
+</pre><h3>Mutant 247</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -9,7 +9,7 @@
+     with patch.object(Database, 'get_connection') as mock_connection:
+         mock_cursor = mock_connection.return_value.cursor.return_value
+         mock_cursor.execute.return_value = None
+-        mock_connection.return_value.commit.return_value = None
++        mock_connection.return_value.commit.return_value = ""
+         yield mock_connection
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+</pre><h3>Mutant 248</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        2, "USD", "EUR", 100.00, 0.9, 90.00
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 249</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        1, "XXUSDXX", "EUR", 100.00, 0.9, 90.00
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 250</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        1, "USD", "XXEURXX", 100.00, 0.9, 90.00
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 251</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        1, "USD", "EUR", 101.0, 0.9, 90.00
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 252</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        1, "USD", "EUR", 100.00, 1.9, 90.00
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 253</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -14,7 +14,7 @@
+ 
+ def test_register_transaction_success(mock_database_connection):#Prueba que el registro de una transacción se realice correctamente.
+     result = TransactionManager.register_transaction(
+-        1, "USD", "EUR", 100.00, 0.9, 90.00
++        1, "USD", "EUR", 100.00, 0.9, 91.0
+     )
+     assert result is True
+ 
+</pre><h3>Mutant 259</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(2, "USD", "EUR", 100.00, 0.9, 90.00)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 260</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(1, "XXUSDXX", "EUR", 100.00, 0.9, 90.00)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 261</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(1, "USD", "XXEURXX", 100.00, 0.9, 90.00)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 262</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(1, "USD", "EUR", 101.0, 0.9, 90.00)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 263</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 1.9, 90.00)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 264</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -21,7 +21,7 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante el registro de una transacción.
+ def test_register_transaction_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 90.00)
++    result = TransactionManager.register_transaction(1, "USD", "EUR", 100.00, 0.9, 91.0)
+     assert "error" in result
+     assert result["error"] == "Error de base de datos"
+ #Prueba que la obtención de transacciones de un usuario se realice correctamente.
+</pre><h3>Mutant 272</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (2, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 273</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 2, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 274</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 1, "XXUSDXX", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 275</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 1, "USD", "XXEURXX", 100.00, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 276</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 1, "USD", "EUR", 101.0, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 277</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 1, "USD", "EUR", 100.00, 1.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 278</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -28,7 +28,7 @@
+ def test_get_user_transactions_success(mock_database_connection):
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+-        (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
++        (1, 1, "USD", "EUR", 100.00, 0.9, 91.0, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+</pre><h3>Mutant 279</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (3, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 280</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 2, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 281</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 1, "XXEURXX", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 282</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 1, "EUR", "XXJPYXX", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 283</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 1, "EUR", "JPY", 201.0, 123.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 284</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 1, "EUR", "JPY", 200.00, 124.0, 24600.00, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 285</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -29,7 +29,7 @@
+     mock_cursor = mock_database_connection.return_value.cursor.return_value
+     mock_cursor.fetchall.return_value = [
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+-        (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
++        (2, 1, "EUR", "JPY", 200.00, 123.0, 24601.0, datetime.now())
+     ]
+     transactions = TransactionManager.get_user_transactions(1)
+     assert len(transactions) == 2
+</pre><h3>Mutant 287</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -31,7 +31,7 @@
+         (1, 1, "USD", "EUR", 100.00, 0.9, 90.00, datetime.now()),
+         (2, 1, "EUR", "JPY", 200.00, 123.0, 24600.00, datetime.now())
+     ]
+-    transactions = TransactionManager.get_user_transactions(1)
++    transactions = TransactionManager.get_user_transactions(2)
+     assert len(transactions) == 2
+ 
+ #Prueba que el método maneja correctamente los errores de base de datos durante la obtención de transacciones de un usuario.
+</pre><h3>Mutant 293</h3><pre>--- tests/test_transaction_manager.py
++++ tests/test_transaction_manager.py
+@@ -37,6 +37,6 @@
+ #Prueba que el método maneja correctamente los errores de base de datos durante la obtención de transacciones de un usuario.
+ def test_get_user_transactions_database_error(mock_database_connection):
+     mock_database_connection.side_effect = Exception("Error de base de datos")
+-    transactions = TransactionManager.get_user_transactions(1)
++    transactions = TransactionManager.get_user_transactions(2)
+     assert "error" in transactions
+     assert transactions["error"] == "Error de base de datos"
+</pre></body></html>

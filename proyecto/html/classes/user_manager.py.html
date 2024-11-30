@@ -1,0 +1,114 @@
+<html><body><h1>classes/user_manager.py</h1>Killed 4 out of 15 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 411</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -1,7 +1,7 @@
+ from config.database import Database
+ 
+ class UserManager:
+-    @staticmethod
++
+     def verify_credentials(username, password):
+         try:
+             conn = Database.get_connection()
+</pre><h3>Mutant 414</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -6,7 +6,7 @@
+         try:
+             conn = Database.get_connection()
+             cursor = conn.cursor()
+-            cursor.execute("SELECT UserId, Username, PasswordHash FROM Users WHERE Username = ?", username)
++            cursor.execute("XXSELECT UserId, Username, PasswordHash FROM Users WHERE Username = ?XX", username)
+             user = cursor.fetchone()
+             
+             if user and password == user.PasswordHash:
+</pre><h3>Mutant 417</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -9,7 +9,7 @@
+             cursor.execute("SELECT UserId, Username, PasswordHash FROM Users WHERE Username = ?", username)
+             user = cursor.fetchone()
+             
+-            if user and password == user.PasswordHash:
++            if user or password == user.PasswordHash:
+                 return user
+             return None
+             
+</pre><h3>Mutant 418</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -14,7 +14,7 @@
+             return None
+             
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'XXcursorXX' in locals() and cursor is not None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 419</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -14,7 +14,7 @@
+             return None
+             
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' not in locals() and cursor is not None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 420</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -14,7 +14,7 @@
+             return None
+             
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' in locals() and cursor is  None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 421</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -14,7 +14,7 @@
+             return None
+             
+         finally:
+-            if 'cursor' in locals() and cursor is not None:
++            if 'cursor' in locals() or cursor is not None:
+                 cursor.close()
+             if 'conn' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 422</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -16,5 +16,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'XXconnXX' in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 423</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -16,5 +16,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' not in locals() and conn is not None:
+                 conn.close()
+</pre><h3>Mutant 424</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -16,5 +16,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' in locals() and conn is  None:
+                 conn.close()
+</pre><h3>Mutant 425</h3><pre>--- classes/user_manager.py
++++ classes/user_manager.py
+@@ -16,5 +16,5 @@
+         finally:
+             if 'cursor' in locals() and cursor is not None:
+                 cursor.close()
+-            if 'conn' in locals() and conn is not None:
++            if 'conn' in locals() or conn is not None:
+                 conn.close()
+</pre></body></html>

@@ -1,0 +1,67 @@
+<html><body><h1>tests/test_user_manager.py</h1>Killed 21 out of 27 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 306</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -7,7 +7,7 @@
+     # Crear un objeto mock para simular la respuesta de la base de datos
+     class MockUser:
+         def __init__(self, user_id, username, password_hash):
+-            self.UserId = user_id
++            self.UserId = None
+             self.Username = username
+             self.PasswordHash = password_hash
+ 
+</pre><h3>Mutant 307</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -8,7 +8,7 @@
+     class MockUser:
+         def __init__(self, user_id, username, password_hash):
+             self.UserId = user_id
+-            self.Username = username
++            self.Username = None
+             self.PasswordHash = password_hash
+ 
+     # Crear el objeto mock que representa un usuario con un PasswordHash
+</pre><h3>Mutant 309</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -12,7 +12,7 @@
+             self.PasswordHash = password_hash
+ 
+     # Crear el objeto mock que representa un usuario con un PasswordHash
+-    mock_user = MockUser(1, 'admin', 'admin123')  # Contraseña simulada
++    mock_user = MockUser(2, 'admin', 'admin123')  # Contraseña simulada
+ 
+     # Mockear la consulta a la base de datos para devolver el mock de usuario
+     mock_cursor = mocker.patch('pyodbc.connect')
+</pre><h3>Mutant 310</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -12,7 +12,7 @@
+             self.PasswordHash = password_hash
+ 
+     # Crear el objeto mock que representa un usuario con un PasswordHash
+-    mock_user = MockUser(1, 'admin', 'admin123')  # Contraseña simulada
++    mock_user = MockUser(1, 'XXadminXX', 'admin123')  # Contraseña simulada
+ 
+     # Mockear la consulta a la base de datos para devolver el mock de usuario
+     mock_cursor = mocker.patch('pyodbc.connect')
+</pre><h3>Mutant 317</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -19,7 +19,7 @@
+     mock_cursor.return_value.cursor.return_value.fetchone.return_value = mock_user
+ 
+     # Datos del formulario de login
+-    data = {'username': 'admin', 'password': 'admin123'}
++    data = {'username': 'XXadminXX', 'password': 'admin123'}
+     response = client.post('/login', data=data)
+ 
+     # Imprimir la URL de redirección para depuración
+</pre><h3>Mutant 323</h3><pre>--- tests/test_user_manager.py
++++ tests/test_user_manager.py
+@@ -23,7 +23,7 @@
+     response = client.post('/login', data=data)
+ 
+     # Imprimir la URL de redirección para depuración
+-    print("Redirección a:", response.location)
++    print("XXRedirección a:XX", response.location)
+ 
+     # Aserciones
+     assert response.status_code == 302  # Redirección esperada
+</pre></body></html>

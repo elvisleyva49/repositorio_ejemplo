@@ -1,0 +1,7 @@
+Flask==3.0.3
+Werkzeug==3.0.6
+pyodbc==5.2.0
+gunicorn
+pytest
+pytest-cov
+pytest-mock

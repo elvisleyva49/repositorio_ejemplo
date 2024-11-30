@@ -1,0 +1,121 @@
+<html><body><h1>tests/test_currency_manager.py</h1>Killed 42 out of 53 mutants<h2>Survived</h2>Survived mutation testing. These mutants show holes in your test suite.<h3>Mutant 133</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -10,7 +10,7 @@
+     return {
+         "USD": {
+             "EUR": Decimal("0.9"),
+-            "JPY": Decimal("110.5")
++            "XXJPYXX": Decimal("110.5")
+         },
+         "EUR": {
+             "USD": Decimal("1.1"),
+</pre><h3>Mutant 135</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -12,7 +12,7 @@
+             "EUR": Decimal("0.9"),
+             "JPY": Decimal("110.5")
+         },
+-        "EUR": {
++        "XXEURXX": {
+             "USD": Decimal("1.1"),
+             "JPY": Decimal("123.0")
+         }
+</pre><h3>Mutant 136</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -13,7 +13,7 @@
+             "JPY": Decimal("110.5")
+         },
+         "EUR": {
+-            "USD": Decimal("1.1"),
++            "XXUSDXX": Decimal("1.1"),
+             "JPY": Decimal("123.0")
+         }
+     }
+</pre><h3>Mutant 138</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -14,7 +14,7 @@
+         },
+         "EUR": {
+             "USD": Decimal("1.1"),
+-            "JPY": Decimal("123.0")
++            "XXJPYXX": Decimal("123.0")
+         }
+     }
+     # Conversión de moneda exitosa (USD a EUR)
+</pre><h3>Mutant 150</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -26,7 +26,7 @@
+     #Conversión de moneda con divisa de origen desconocida.
+ def test_convert_currency_unknown_origin_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "GBP", "EUR")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(101, "GBP", "EUR")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     # Conversión de moneda con divisa de destino desconocida.
+</pre><h3>Mutant 151</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -26,7 +26,7 @@
+     #Conversión de moneda con divisa de origen desconocida.
+ def test_convert_currency_unknown_origin_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "GBP", "EUR")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "XXGBPXX", "EUR")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     # Conversión de moneda con divisa de destino desconocida.
+</pre><h3>Mutant 152</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -26,7 +26,7 @@
+     #Conversión de moneda con divisa de origen desconocida.
+ def test_convert_currency_unknown_origin_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "GBP", "EUR")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "GBP", "XXEURXX")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     # Conversión de moneda con divisa de destino desconocida.
+</pre><h3>Mutant 157</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -32,7 +32,7 @@
+     # Conversión de moneda con divisa de destino desconocida.
+ def test_convert_currency_unknown_destination_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "USD", "CNY")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(101, "USD", "CNY")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     #Conversión de moneda con monto negativo.
+</pre><h3>Mutant 158</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -32,7 +32,7 @@
+     # Conversión de moneda con divisa de destino desconocida.
+ def test_convert_currency_unknown_destination_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "USD", "CNY")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "XXUSDXX", "CNY")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     #Conversión de moneda con monto negativo.
+</pre><h3>Mutant 159</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -32,7 +32,7 @@
+     # Conversión de moneda con divisa de destino desconocida.
+ def test_convert_currency_unknown_destination_currency(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "USD", "CNY")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(100, "USD", "XXCNYXX")
+         assert tasa_conversion is None
+         assert monto_convertido is None
+     #Conversión de moneda con monto negativo.
+</pre><h2>Suspicious</h2>Mutants that made the test suite take longer, but otherwise seemed ok<h3>Mutant 176</h3><pre>--- tests/test_currency_manager.py
++++ tests/test_currency_manager.py
+@@ -44,6 +44,6 @@
+     #Conversión de moneda con monto cero.
+ def test_convert_currency_zero_amount(mock_conversion_rates):
+     with patch.object(Database, 'conversion_rates', return_value=mock_conversion_rates):
+-        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(0, "USD", "EUR")
++        tasa_conversion, monto_convertido = CurrencyManager.convert_currency(0, "USD", "XXEURXX")
+         assert tasa_conversion == Decimal("0.9")
+         assert monto_convertido == Decimal("0.00")
+</pre></body></html>

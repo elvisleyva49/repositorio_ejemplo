@@ -1,0 +1,354 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverfarms_elvleyva_asp_1051_name": {
+      "type": "String"
+    },
+    "serverfarms_uptlinux_name": {
+      "type": "String"
+    },
+    "sites_miapppython_name": {
+      "type": "String"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2023-12-01",
+      "kind": "linux",
+      "location": "East US",
+      "name": "[parameters('serverfarms_elvleyva_asp_1051_name')]",
+      "properties": {
+        "elasticScaleEnabled": false,
+        "hyperV": false,
+        "isSpot": false,
+        "isXenon": false,
+        "maximumElasticWorkerCount": 1,
+        "perSiteScaling": false,
+        "reserved": true,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0,
+        "zoneRedundant": false
+      },
+      "sku": {
+        "capacity": 1,
+        "family": "F",
+        "name": "F1",
+        "size": "F1",
+        "tier": "Free"
+      },
+      "type": "Microsoft.Web/serverfarms"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "kind": "linux",
+      "location": "East US",
+      "name": "[parameters('serverfarms_uptlinux_name')]",
+      "properties": {
+        "elasticScaleEnabled": false,
+        "hyperV": false,
+        "isSpot": false,
+        "isXenon": false,
+        "maximumElasticWorkerCount": 1,
+        "perSiteScaling": false,
+        "reserved": true,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0,
+        "zoneRedundant": false
+      },
+      "sku": {
+        "capacity": 1,
+        "family": "F",
+        "name": "F1",
+        "size": "F1",
+        "tier": "Free"
+      },
+      "type": "Microsoft.Web/serverfarms"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_elvleyva_asp_1051_name'))]"
+      ],
+      "kind": "app,linux",
+      "location": "East US",
+      "name": "[parameters('sites_miapppython_name')]",
+      "properties": {
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "containerSize": 0,
+        "customDomainVerificationId": "DB5E00337BE46FE39095DC5F537FC1E7438E122E00071A1E5106335A1A11B5B3",
+        "dailyMemoryTimeQuota": 0,
+        "dnsConfiguration": {},
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "hostType": "Standard",
+            "name": "[concat(parameters('sites_miapppython_name'), '.azurewebsites.net')]",
+            "sslState": "Disabled"
+          },
+          {
+            "hostType": "Repository",
+            "name": "[concat(parameters('sites_miapppython_name'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled"
+          }
+        ],
+        "hostNamesDisabled": false,
+        "httpsOnly": true,
+        "hyperV": false,
+        "isXenon": false,
+        "keyVaultReferenceIdentity": "SystemAssigned",
+        "redundancyMode": "None",
+        "reserved": true,
+        "scmSiteAlsoStopped": false,
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_elvleyva_asp_1051_name'))]",
+        "siteConfig": {
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": false,
+          "functionAppScaleLimit": 0,
+          "http20Enabled": true,
+          "linuxFxVersion": "PYTHON|3.9",
+          "minimumElasticInstanceCount": 0,
+          "numberOfWorkers": 1
+        },
+        "storageAccountRequired": false,
+        "vnetBackupRestoreEnabled": false,
+        "vnetContentShareEnabled": false,
+        "vnetImagePullEnabled": false,
+        "vnetRouteAllEnabled": false
+      },
+      "type": "Microsoft.Web/sites"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/ftp')]",
+      "properties": {
+        "allow": true
+      },
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/scm')]",
+      "properties": {
+        "allow": true
+      },
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/web')]",
+      "properties": {
+        "acrUseManagedIdentityCreds": false,
+        "alwaysOn": false,
+        "autoHealEnabled": false,
+        "azureStorageAccounts": {},
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "detailedErrorLoggingEnabled": false,
+        "elasticWebAppScaleLimit": 0,
+        "experiments": {
+          "rampUpRules": []
+        },
+        "ftpsState": "FtpsOnly",
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "http20Enabled": true,
+        "httpLoggingEnabled": true,
+        "ipSecurityRestrictions": [
+          {
+            "action": "Allow",
+            "description": "Allow all access",
+            "ipAddress": "Any",
+            "name": "Allow all",
+            "priority": 2147483647
+          }
+        ],
+        "linuxFxVersion": "PYTHON|3.9",
+        "loadBalancing": "LeastRequests",
+        "localMySqlEnabled": false,
+        "logsDirectorySizeLimit": 100,
+        "managedPipelineMode": "Integrated",
+        "minTlsVersion": "1.2",
+        "minimumElasticInstanceCount": 0,
+        "netFrameworkVersion": "v4.0",
+        "numberOfWorkers": 1,
+        "preWarmedInstanceCount": 0,
+        "publishingUsername": "$miapppython",
+        "remoteDebuggingEnabled": false,
+        "requestTracingEnabled": false,
+        "scmIpSecurityRestrictions": [
+          {
+            "action": "Allow",
+            "description": "Allow all access",
+            "ipAddress": "Any",
+            "name": "Allow all",
+            "priority": 2147483647
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "scmMinTlsVersion": "1.2",
+        "scmType": "None",
+        "use32BitWorkerProcess": true,
+        "virtualApplications": [
+          {
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false,
+            "virtualPath": "/"
+          }
+        ],
+        "vnetPrivatePortsCount": 0,
+        "vnetRouteAllEnabled": false,
+        "webSocketsEnabled": false
+      },
+      "type": "Microsoft.Web/sites/config"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/213c398f-87d1-4d78-802a-5a68912ed418')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "GITHUB_ZIP_DEPLOY",
+        "message": "{\"type\":\"deployment\",\"sha\":\"029a1492ef0e6175fd9245eba81179c7764ff0d9\",\"repoName\":\"UPT-FAING-EPIS/proyecto-si685-2024-i-u3-proyecto_urls_u3_grupo_1\",\"actor\":\"elvisleyva49\",\"slotName\":\"production\",\"commitMessage\":\"Version 2\"}",
+        "start_time": "2024-07-14T22:26:18.7186159Z",
+        "status": 1
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/3cf5f92e-dde3-4c1a-b63c-60ee4292a756')]",
+      "properties": {
+        "active": true,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "GITHUB_ZIP_DEPLOY",
+        "end_time": "2024-07-14T22:07:27.7188604Z",
+        "message": "{\"type\":\"deployment\",\"sha\":\"65a86f758d105b1fa72b55142c9345f5068e78c8\",\"repoName\":\"UPT-FAING-EPIS/proyecto-si685-2024-i-u3-proyecto_urls_u3_grupo_1\",\"actor\":\"elvisleyva49\",\"slotName\":\"production\",\"commitMessage\":\"Version 1\"}",
+        "start_time": "2024-07-14T22:01:51.9754069Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/a3bd81a0-38ba-4614-8e00-1d26fab65899')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "GITHUB_ZIP_DEPLOY",
+        "end_time": "2024-07-13T00:11:38.2668452Z",
+        "message": "{\"type\":\"deployment\",\"sha\":\"06897c21c513a99b0af6456380a5b31736ada25c\",\"repoName\":\"elvisleyva49/PROYECTOFINAL\",\"actor\":\"elvisleyva49\",\"slotName\":\"production\",\"commitMessage\":\"Version despliegue\"}",
+        "start_time": "2024-07-13T00:10:38.787941Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/daf11a3b-c05b-442d-9c49-159adb446dae')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "Push-Deployer",
+        "end_time": "2024-07-12T20:11:20.9969473Z",
+        "message": "Created via a push deployment",
+        "start_time": "2024-07-12T20:10:51.4297043Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/f8633c7f-fa7d-465c-a25a-451aae9efa09')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "GITHUB_ZIP_DEPLOY",
+        "end_time": "2024-07-13T00:46:17.2314714Z",
+        "message": "{\"type\":\"deployment\",\"sha\":\"285297edda6bccbbab04f68225a2c6466f68d865\",\"repoName\":\"elvisleyva49/PROYECTOFINAL\",\"actor\":\"elvisleyva49\",\"slotName\":\"production\",\"commitMessage\":\"Prueba\"}",
+        "start_time": "2024-07-13T00:43:54.6817289Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/temp-dc9ea45f')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "GITHUB_ZIP_DEPLOY",
+        "message": "Deploying from pushed zip file",
+        "start_time": "2024-07-14T22:25:56.1209327Z",
+        "status": 0
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2023-12-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_miapppython_name'))]"
+      ],
+      "location": "East US",
+      "name": "[concat(parameters('sites_miapppython_name'), '/', parameters('sites_miapppython_name'), '.azurewebsites.net')]",
+      "properties": {
+        "hostNameType": "Verified",
+        "siteName": "miapppython"
+      },
+      "type": "Microsoft.Web/sites/hostNameBindings"
+    }
+  ],
+  "variables": {}
+}
