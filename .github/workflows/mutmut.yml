@@ -1,6 +1,4 @@
-
 name: Mutant Testing Report
-
 
 jobs:
   mutmut:
@@ -15,37 +13,26 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'  # Asegúrate de usar la versión que corresponde a tu proyecto
+        python-version: '3.10'
 
     # Instalar dependencias
     - name: Install dependencies
       run: |
         pip install mutmut==2.0.0
-        pip install pytest  # Instalar pytest si no está en tus requerimientos
+        pip install pytest
         pip install -r proyecto/requirements.txt
-
 
     # Ejecutar pruebas mutantes
     - name: Run mutmut
       run: |
         cd proyecto
-        mutmut run --paths-to-mutate classes/  # Ajusta según el directorio correcto
+        mutmut run --paths-to-mutate classes/
         mutmut html
 
-    # Configurar git para hacer commit en la rama gh-pages
-    - name: Set up Git
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "github-actions@github.com"
-
-    # Subir el reporte generado a gh-pages
-    - name: Commit and push mutated report to gh-pages
-      run: |
-        # Crear un nuevo directorio para los reportes si no existe
-        mkdir -p gh-pages/mutmut-report
-        mv mutmut_html/* gh-pages/mutmut-report/
-        
-        # Hacer commit de los cambios en gh-pages
-        git add gh-pages/mutmut-report/*
-        git commit -m "Add mutmut report"
-        git push origin gh-pages
+    # Desplegar solo el reporte de mutmut en gh-pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./proyecto/mutmut_html
+        publish_branch: gh-pages
