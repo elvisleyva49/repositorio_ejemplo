@@ -26,11 +26,18 @@ jobs:
         pip install -r proyecto/requirements.txt
 
     - name: Run mutmut
-      continue-on-error: true
       run: |
         cd proyecto
         mutmut run --paths-to-mutate classes/
         mutmut html
+        ls -l  # Listar contenidos para verificar
+
+    - name: Debug - Check HTML directory
+      run: |
+        cd proyecto
+        pwd
+        find . -name "html"
+        ls -la
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
